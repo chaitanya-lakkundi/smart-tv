@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+
+mkdir -p dump
+cd dump
+
+touch counter
+count=$(cat counter)
+FRAME=""
+
+function crop_video_frame {
+	LOGO="channel_logo.jpg"
+
+	FILE="list_of_dimensions"
+	while read -r line
+		do
+			if ! [ $line ]; then break; fi
+			if [[ $line == ~* ]]; then continue; fi
+
+			echo "$line"
+			
+			channel_name=$(echo "$line" | cut -d";" -f1)			
+
+			channel_name=$channel_name-$count
+			channel_dimen=$(echo "$line" | cut -d";" -f2)
+
+			convert $FRAME -crop $channel_dimen $LOGO
+
+			echo "mv $LOGO ${channel_name}.jpg"
+			mv $LOGO ${channel_name}.jpg
+		done < "$FILE"
+}
+
+function process_video {
+	INPUT_VIDEO="$1"
+	TIME="$2"
+
+	echo "Processing video frame"
+	
+	count=$((count + 1))		
+	FRAME="video_frame.jpg"
+	echo -e "Get video frame\n" && echo "y" | ffmpeg -i "$INPUT_VIDEO" -s 640x480 -ss 00:00:$TIME -vframes 1 $FRAME
+	
+	crop_video_frame $FRAME
+	
+	echo $count > counter
+	sleep 1
+	
+}
+
+function process_image {
+	IMAGE="$1"
+	echo "Processing image frame"
+	
+
+	crop_image_frame $IMAGE
+}
+
+function main {
+	OPT="$1"
+	INPUT="$2"
+	TIME="$3"
+	
+	if [ $OPT == "-v" ];then
+		process_video $INPUT $TIME
+	else
+		process_image $INPUT
+	fi
+}
+
+#ln -s ../$2 $2
+cp ../list_of_dimensions .
+main $1 $2 $3
