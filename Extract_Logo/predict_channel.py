@@ -1,6 +1,5 @@
 #import pandas as pd
-from skimage import io, filters, color, transform
-from sklearn.svm import LinearSVC
+from skimage import io, transform
 from sklearn.externals import joblib
 from sys import argv
 from subprocess import call
@@ -13,7 +12,7 @@ def preprocess(image):
 
 def main(filename):
     #filename = sys.argv[1]
-    model = joblib.load('logo_classification_model.pkl')
+    model = joblib.load('new_logo_model_clf.pkl')
     channel_mapping = {
         0: 'Aastha',
         1: 'DD_News',
@@ -22,12 +21,13 @@ def main(filename):
         4: 'Zee_News'
     }
     X = preprocess(filename)
-    prediction = model.predict(X)[0]
-    #print(prediction)
-    print(filename,":",channel_mapping[prediction])
-
-    with open("predict_output", "a+") as out:
-        out.write(filename.strip()+":"+channel_mapping[prediction].strip()+"\n")
+    y_proba = model.predict_proba(X)
+    if max(y_proba[0]) > 0.5:
+        ind = list(y_proba[0]).index(max(y_proba[0]))
+        print(filename,":",channel_mapping[ind])
+        
+        with open("predict_output", "a+") as out:
+            out.write(filename.strip()+":"+channel_mapping[ind].strip()+"\n")
 
     call("sed -i '1d' predict_source", shell=True)
 

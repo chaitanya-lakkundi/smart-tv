@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Canvas Keyboard</title>
+    <!-- <script src="static/js/jquery-1.7.2.min.js"></script>
+    <script src="static/js/jquery-ui.min.js"></script>
+    <script src="static/js/jquery.ui.touch-punch.min.js"></script> -->
+    <style type="text/css">
+      button {
+        background: none;
+        border: none;
+      }
+    </style>
+</head>
+
+<body>
+  <div id="big_element">
+   <table id="joystick">
+       <tr>
+           <td></td>
+           <td>
+              <button id="up_btn" onclick="fire_event('up', '1');">
+                <img src="static/icons/up.png" >
+              </button>
+           </td>
+           <td></td>
+       </tr>
+       <tr>
+           <td id="left_composite">
+              <button id="left_btn" onclick="fire_event('left', '4');">
+                <img src="static/icons/left.png" >
+              </button>
+           </td>
+           <td>
+            <button id="escape_btn" onclick="fire_event('escape', '5');">
+                <center><img id="round_img" src="static/icons/round.png" height="128" width="128"></center>
+            </button>
+           </td>
+           <td>
+              <button id="right_btn"  onclick="fire_event('right', '3');">
+                <img src="static/icons/right.png" >
+              </button>
+           </td>
+       </tr>
+       <tr>
+           <td></td>
+           <td>
+              <button id="down_btn" onclick="fire_event('down', '2');">
+                <img src="static/icons/down.png">
+              </button>
+           </td>
+           <td></td>
+       </tr>
+   </table>
+</div>
+<!-- <script type="text/javascript">
+  function post(path, params, method) {
+      method = method || "post";
+      var form = document.createElement("form");
+      form.setAttribute("method", method);
+      form.setAttribute("action", path);
+
+      for(var key in params) {
+          if(params.hasOwnProperty(key)) {
+              var hiddenField = document.createElement("input");
+              hiddenField.setAttribute("type", "hidden");
+              hiddenField.setAttribute("name", key);
+              hiddenField.setAttribute("value", params[key]);
+
+              form.appendChild(hiddenField);
+          }
+      }
+
+      document.body.appendChild(form);
+      form.submit();
+  }
+
+
+    function fire_event1() {
+        console.log("fire_event");
+        $.ajax({
+        type: "POST",
+        url: 'events',
+        dataType: 'json',
+        data: {functionname: 'up', arguments: [1, 2]},
+
+        success: function (obj, textstatus) {
+                      if( !('error' in obj) ) {
+                          yourVariable = obj.result;
+                          console.log("success from fire_event");
+                      }
+                      else {
+                          console.log("error from fire_event");
+                          console.log(obj.error);
+                      }
+                }
+                });
+
+    }
+</script> -->
+<!-- <script>$('#round_img').draggable();</script> -->
+<!-- <script>$('#big_element').draggable();</script> -->
+<!-- <script>$("#escape_btn").click(fire_event("escape", 5));</script> -->
+
+<script type="text/javascript">
+
+    function fire_event(direction,code) {
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "/events", true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.send(JSON.stringify({
+          name: direction,
+          dir_code: code
+      }));
+    }
+</script>
+</body>
+</html>

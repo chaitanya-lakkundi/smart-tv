@@ -38,8 +38,9 @@ function crop_video_frame {
 
             #echo "mv $LOGO ${channel_name}.jpg"
             mv "$LOGO" "$ABS/dump/${channel_name}.jpg"           
-            python "$ABS/threshold.py" "$ABS/dump/${channel_name}.jpg"
-            echo "$ABS/dump/${channel_name}.jpg.bw.png" >> predict_source
+            #python "$ABS/threshold.py" "$ABS/dump/${channel_name}.jpg"
+            ./kmeansthresh "$ABS/dump/${channel_name}.jpg" "$ABS/dump/${channel_name}.jpg.bw.gif"
+            echo "$ABS/dump/${channel_name}.jpg.bw.gif" >> predict_source
         done < "$FILE"
 }
 
