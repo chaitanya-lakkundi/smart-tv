@@ -39,8 +39,8 @@ function crop_video_frame {
             #echo "mv $LOGO ${channel_name}.jpg"
             mv "$LOGO" "$ABS/dump/${channel_name}.jpg"           
             #python "$ABS/threshold.py" "$ABS/dump/${channel_name}.jpg"
-            ./kmeansthresh "$ABS/dump/${channel_name}.jpg" "$ABS/dump/${channel_name}.jpg.bw.gif"
-            echo "$ABS/dump/${channel_name}.jpg.bw.gif" >> predict_source
+            ./kmeansthresh "dump/${channel_name}.jpg" "dump/${channel_name}.jpg.bw.gif"
+            echo "dump/${channel_name}.jpg.bw.gif" >> predict_source
         done < "$FILE"
 }
 
@@ -66,6 +66,7 @@ function main {
     OPT="$1"
     INPUT="$2"
     TIME="$3"
+    INCR=$TIME
     LOOP_OPT="$4"
     LOOP_TIMES="$5"
     
@@ -80,12 +81,13 @@ function main {
                 echo "Loop $LOOP_TIMES"
                 process_video "$INPUT" $TIME
                 LOOP_TIMES=$((LOOP_TIMES - 1))
+                TIME=$((TIME + INCR))
             done
         else
             process_video "$INPUT" $TIME
         fi
     else
-        echo "Arg error"
+        echo "$0 --stream input every_t_seconds loop loop_times"
     fi
 }
 

@@ -16,15 +16,15 @@ data = {
         "tamas": 30,
         "genre": "Entertainment"
     },
-    "India-TV": {
-        "name": "India-TV",        
+    "India_TV": {
+        "name": "India_TV",        
         "sattva": 5,
         "rajas": 65,
         "tamas": 25,
         "genre": "News"
     },
-    "Zee-News": {
-        "name": "Zee-News",
+    "Zee_News": {
+        "name": "Zee_News",
         "sattva": 5,
         "rajas": 65,
         "tamas": 25,

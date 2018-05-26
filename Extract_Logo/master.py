@@ -16,11 +16,23 @@ def log_data():
     proc = Popen("./log_data_master.sh", shell=True)
     return proc
 
-def main(cmd, loop_times):  
+def fluentbit():
+    proc = Popen("./rotate_log.sh", shell=True)
+    from time import sleep
+    sleep(2)
+    proc = Popen("/opt/td-agent-bit/bin/td-agent-bit -c /etc/td-agent-bit/td-agent-bit.conf -R /etc/td-agent-bit/parsers.conf", shell=True)
+    return proc
+
+def main(cmd, video_input, loop_times):  
     if cmd == "start":
         pid_file = open("pids", "a+")
 
-        pid_el = extract_logo("/dev/video0", loop_times)
+        pid_el = extract_logo(video_input, loop_times)
+        
+        #pid_flb = fluentbit()
+        #print("Fluentbit = ",pid_flb.pid)
+        #print(pid_flb.pid, file=pid_file)
+        
         print("Extract Logo = ",pid_el.pid)
         print(pid_el.pid, file=pid_file)
 
@@ -35,5 +47,8 @@ def main(cmd, loop_times):
     elif cmd == "stop":
         pass
 
-if __name__ == "__main__":    
-    main(argv[1], argv[2])
+if __name__ == "__main__":
+    try:
+        main(argv[1], argv[2], argv[3])
+    except IndexError:
+        print("Usage: ./master.py start video_input loop_times")

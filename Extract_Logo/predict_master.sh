@@ -6,7 +6,7 @@ function predict {
     while :
     do
         batch_count=`wc -l predict_source | cut -d" " -f1`
-        while [ $batch_count -lt 10 ];do
+        while [ $batch_count -lt 50 ];do
             batch_count=`wc -l predict_source | cut -d" " -f1`
             echo "Sleep predict"
             sleep 1

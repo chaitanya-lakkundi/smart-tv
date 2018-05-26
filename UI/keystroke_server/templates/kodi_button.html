@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Canvas Keyboard</title>
+  <!--  <script src="static/js/jquery-1.7.2.min.js"></script>
+    <script src="static/js/jquery-ui.min.js"></script>
+    <script src="static/js/jquery.ui.touch-punch.min.js"></script> -->
+    <style type="text/css">
+      button {
+        background: none;
+        border: none;
+      }
+    </style>
+</head>
+
+<body>
+  <div id="big_element">
+   <table id="joystick">
+       <tr>
+           <td>
+              <button onclick="fire_event('kodi', '33');">
+                <img id="kodi_btn" src="static/icons/kodi.png" width="128" height="128">
+              </button>
+           </td>
+       </tr>
+       <tr>
+           <td>
+              <button onclick="fire_event('kodi', '99');">
+                <img id="stop_btn" src="static/icons/stop.png" width="128" height="128">
+              </button>	   
+    	   </td>
+       </tr>
+ <!--
+ <script>$('#kodi_btn').draggable();</script>
+ <script>$('#stop_btn').draggable();</script> -->
+<!-- <script>$('#big_element').draggable();</script> -->
+<!-- <script>$("#escape_btn").click(fire_event("escape", 5));</script> -->
+
+<script type="text/javascript">
+
+    function fire_event(direction,code) {
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "/events", true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.send(JSON.stringify({
+          name: direction,
+          code: code
+      }));
+    }
+</script>
+</body>
+</html>

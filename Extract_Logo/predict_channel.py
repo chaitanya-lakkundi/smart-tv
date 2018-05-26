@@ -22,9 +22,10 @@ def main(filename):
     }
     X = preprocess(filename)
     y_proba = model.predict_proba(X)
-    if max(y_proba[0]) > 0.5:
+    #print(y_proba[0])
+    if max(y_proba[0]) > 0.7:
         ind = list(y_proba[0]).index(max(y_proba[0]))
-        print(filename,":",channel_mapping[ind])
+        print(filename,":", channel_mapping[ind])
         
         with open("predict_output", "a+") as out:
             out.write(filename.strip()+":"+channel_mapping[ind].strip()+"\n")
