@@ -47,7 +47,7 @@ def main(cmd, video_input, loop_times):
     elif cmd == "stop":
         pass
 
-if __name__ == "__main__":
+if __name__ == "__main__":    
     try:
         main(argv[1], argv[2], argv[3])
     except IndexError:
